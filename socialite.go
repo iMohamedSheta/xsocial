@@ -82,4 +82,3 @@ func (s *Socialite) GetConfig(name string) Config {
 	defer s.mu.RUnlock()
 	return s.configs[name]
 }
-

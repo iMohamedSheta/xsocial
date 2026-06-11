@@ -682,7 +682,7 @@ func TestSocialite_ConcurrentDriverCalls(t *testing.T) {
 	s := newSocialite()
 	done := make(chan struct{})
 
-	for i := 0; i < 50; i++ {
+	for range 50 {
 		go func() {
 			p := s.Driver("google")
 			if p == nil {
@@ -693,7 +693,7 @@ func TestSocialite_ConcurrentDriverCalls(t *testing.T) {
 	}
 
 	timeout := time.After(5 * time.Second)
-	for i := 0; i < 50; i++ {
+	for range 50 {
 		select {
 		case <-done:
 		case <-timeout:
@@ -706,7 +706,7 @@ func TestSocialite_ConcurrentAddConfig(t *testing.T) {
 	s := xsocial.New()
 	done := make(chan struct{})
 
-	for i := 0; i < 20; i++ {
+	for i := range 20 {
 		go func(n int) {
 			s.AddConfig("google", xsocial.Config{ClientID: "id", ClientSecret: "sec", RedirectURL: "https://x.com"})
 			done <- struct{}{}
@@ -714,7 +714,7 @@ func TestSocialite_ConcurrentAddConfig(t *testing.T) {
 	}
 
 	timeout := time.After(5 * time.Second)
-	for i := 0; i < 20; i++ {
+	for range 20 {
 		select {
 		case <-done:
 		case <-timeout:
